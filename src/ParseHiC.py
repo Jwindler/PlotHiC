@@ -15,7 +15,7 @@ import numpy as np
 from logger import logger
 
 
-def parse_hic(hic, resolution=None, data_type="observed", normalization="NONE"):
+def parse_hic(hic, resolution=None, matrix_end=None, data_type="observed", normalization="NONE"):
     hic_obj = hicstraw.HiCFile(hic)
 
     # genome_id = hic_obj.getGenomeID()
@@ -37,6 +37,7 @@ def parse_hic(hic, resolution=None, data_type="observed", normalization="NONE"):
     for chrom in hic_obj.getChromosomes():
         chr_info[chrom.name] = chrom.length
     hic_max_len = chr_info["assembly"]
+    matrix_end = hic_max_len if matrix_end is None else matrix_end
     logger.info(f"HiC data assembly chromosome length: {hic_max_len}")
 
     res_max_len = resolution * 1400
@@ -44,11 +45,11 @@ def parse_hic(hic, resolution=None, data_type="observed", normalization="NONE"):
     matrix_obj = hic_obj.getMatrixZoomData('assembly', 'assembly', data_type, normalization, "BP", resolution)
 
     # contact_matrix = None  # contact matrix
-    if res_max_len > hic_max_len:
-        contact_matrix = matrix_obj.getRecordsAsMatrix(0, hic_max_len, 0, hic_max_len)
+    if res_max_len > matrix_end:
+        contact_matrix = matrix_obj.getRecordsAsMatrix(0, matrix_end, 0, matrix_end)
     else:
-        extract_times = int(hic_max_len / res_max_len) + 1  # extract times
-        iter_len = np.linspace(0, hic_max_len, extract_times + 1)  # iteration length
+        extract_times = int(matrix_end / res_max_len) + 1  # extract times
+        iter_len = np.linspace(0, matrix_end, extract_times + 1)  # iteration length
         incr_distance = iter_len[1]  # increment distance
         final_matrix = None
 
