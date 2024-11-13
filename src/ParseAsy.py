@@ -9,6 +9,8 @@
 @Function: Parse assembly file to get the chromosome information
 """
 
+from logger import logger
+
 
 def parse_assembly(assembly_file):
     """
@@ -18,6 +20,7 @@ def parse_assembly(assembly_file):
 
     Returns:
         chr_info: chromosome information
+        all_chr_info: all chromosome information
 
     """
     scaffold_info = {}  # scaffold information
@@ -43,17 +46,28 @@ def parse_assembly(assembly_file):
                 }
                 chr_count += 1
 
+    all_chr_len = 0
+
     # Calculate each chromosome length
     for chr_num, info in chr_info.items():
         scaffold_indices = map(int, info["scaffold_index"].split(" "))
         chr_len = sum(scaffold_info[abs(index)]["scaffold_asy_len"] for index in scaffold_indices)
         chr_info[chr_num]["chr_len"] = chr_len
+        all_chr_len += chr_len
 
-    return chr_info
+    all_chr_info = {
+        "chr_count": chr_count - 1,
+        "all_chr_len": all_chr_len
+    }
+
+    logger.info(f"The number of chromosomes: {chr_count - 1}")
+    logger.info(f"Total length of all chromosomes: {all_chr_len}")
+
+    return chr_info, all_chr_info
 
 
 def main():
-    asy_file = "/home/jzj/projects/HiCPlot/Mastacembelus.assembly"
+    asy_file = "/home/jzj/projects/PlotHiC/data/Mastacembelus.assembly"
     temp_result = parse_assembly(asy_file)
     print(temp_result)
 
