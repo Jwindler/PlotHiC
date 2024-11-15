@@ -64,7 +64,9 @@ def main():
     resolution = 100000
     chr_txt = "/home/jzj/projects/PlotHiC/data/chr.txt"
     output_file = "/mnt/e/downloads/GenomeContact.pdf"
-    plot_hic(hic_file, chr_txt=chr_txt, resolution=resolution, output=output_file)
+    genome_name = "PlotHiC"
+    cmap = "Reds"
+    plot_hic(hic_file, chr_txt=chr_txt, genome_name=genome_name, resolution=resolution, output=output_file, cmap=cmap)
 
 
 if __name__ == '__main__':
