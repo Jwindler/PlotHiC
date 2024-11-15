@@ -9,23 +9,62 @@
 @Function: Plot Whole genome Hi-C contact matrix heatmap
 """
 
+import hicstraw
+
 from ParseHiC import parse_hic
 from PlotMTX import plot_matrix
+from logger import logger
 
 
-def plot_hic(hic, resolution, chr_info=None, asy=None):
-    pass
+def plot_hic(hic, chr_txt, output='GenomeContact.pdf', resolution=None, data_type="observed",
+             normalization="NONE", genome_name=None, fig_size=(6, 6), dpi=300,
+             bar_min=0,
+             bar_max=None, cmap="YlOrRd"):
+    # get hic object
+    hic_obj = hicstraw.HiCFile(hic)
+
+    # get resolutions
+    resolutions = hic_obj.getResolutions()
+    logger.info(f"This Hi-C data has resolutions: {resolutions}")
+
+    # choose resolution
+    if resolution is None:
+        resolution = resolutions[-1]
+        logger.info(f"Resolution not set, use the default max resolution: {resolution}")
+    elif resolution not in resolutions:
+        logger.error(f"Resolution {resolution} not in {resolutions}")
+        resolution = resolutions[-1]
+    logger.info(f"Resolution: {resolution}")
+
+    # plot with chr txt
+
+    chr_info = {}
+    last_chr_len = 0
+    with open(chr_txt, 'r') as f:
+        for line in f:
+            if line.startswith("#"):
+                continue
+            line = line.strip().split()
+            chr_info[line[0]] = int(line[1]) // int(resolution)
+
+            # get the last chromosome length
+            if int(line[1]) > last_chr_len:
+                last_chr_len = int(line[1])
+    # sort chromosome information
+    chr_info_sorted = dict(sorted(chr_info.items(), key=lambda item: item[1]))
+    matrix = parse_hic(hic, resolution, matrix_end=last_chr_len, data_type=data_type, normalization=normalization)
+
+    plot_matrix(matrix, chr_info=chr_info_sorted, outfile=output, genome_name=genome_name, fig_size=fig_size, dpi=dpi,
+                bar_min=bar_min,
+                bar_max=bar_max, cmap=cmap)
 
 
 def main():
-    hic_file = "/home/jzj/projects/PlotHiC/data/Mastacembelus.hic"
-    resolution = 50000
-    vmax = 100
-    matrix = parse_hic(hic_file, resolution)
-
+    hic_file = "/home/jzj/projects/PlotHiC/data/test.hic"
+    resolution = 100000
+    chr_txt = "/home/jzj/projects/PlotHiC/data/chr.txt"
     output_file = "/mnt/e/downloads/GenomeContact.pdf"
-    chr_info = {'Chr1': 260, 'Chr2': 505, 'Chr3': 5670}
-    plot_matrix(matrix, chr_info, outfile=output_file, vmax=vmax)
+    plot_hic(hic_file, chr_txt=chr_txt, resolution=resolution, output=output_file)
 
 
 if __name__ == '__main__':

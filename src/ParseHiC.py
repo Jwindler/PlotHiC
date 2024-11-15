@@ -15,23 +15,11 @@ import numpy as np
 from logger import logger
 
 
-def parse_hic(hic, resolution=None, matrix_end=None, data_type="observed", normalization="NONE"):
+def parse_hic(hic, resolution, matrix_end=None, data_type="observed", normalization="NONE"):
     hic_obj = hicstraw.HiCFile(hic)
 
     # genome_id = hic_obj.getGenomeID()
     # logger.info(f"Genome ID: {genome_id}")
-
-    resolutions = hic_obj.getResolutions()
-    logger.info(f"This Hi-C data has resolutions: {resolutions}")
-
-    # check resolution
-    if resolution is None:
-        resolution = resolutions[-1]
-        logger.info(f"Resolution not set, use the default max resolution: {resolution}")
-    elif resolution not in resolutions:
-        logger.error(f"Resolution {resolution} not in {resolutions}")
-        resolution = resolutions[-1]
-    logger.info(f"Resolution: {resolution}")
 
     chr_info = {}
     for chrom in hic_obj.getChromosomes():
