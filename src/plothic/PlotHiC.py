@@ -31,11 +31,11 @@ def plot_hic(hic, chr_txt, output='GenomeContact.pdf', resolution=None, data_typ
 
     # choose resolution
     if resolution is None:
-        resolution = resolutions[-1]
+        resolution = resolutions[-3]
         logger.info(f"Resolution not set, use the default max resolution: {resolution}")
     elif resolution not in resolutions:
         logger.error(f"Resolution {resolution} not in {resolutions}")
-        resolution = resolutions[-1]
+        resolution = resolutions[-3]
     logger.info(f"Use the resolution: {resolution}")
     logger.info(f"Use the {data_type} data type and {normalization} normalization method")
 
