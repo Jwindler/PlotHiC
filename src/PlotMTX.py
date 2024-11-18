@@ -13,8 +13,7 @@ import numpy as np
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from numpy import log2
 
-from ParseHiC import parse_hic
-from logger import logger
+from src.logger import logger
 
 
 def plot_matrix(matrix, chr_info=None, genome_name=None, outfile='GenomeContact.pdf', fig_size=(6, 6), dpi=300,
@@ -43,6 +42,7 @@ def plot_matrix(matrix, chr_info=None, genome_name=None, outfile='GenomeContact.
     ax.set_yticklabels(labels)
 
     # set genome title
+    logger.info(f"Genome name: {genome_name}")
     ax.set_title(genome_name, fontsize=20, pad=8, fontstyle='italic')
 
     ax.grid(color=grid_color, linestyle=grid_style, linewidth=grid_width, alpha=grip_alpha)
@@ -64,7 +64,9 @@ def plot_matrix(matrix, chr_info=None, genome_name=None, outfile='GenomeContact.
     maxcolor = (np.percentile(matrix, 95))
     if bar_max is None:
         bar_max = maxcolor
-        logger.info(f"max color is not set, use the default max color: {bar_max}")
+        logger.info(f"Max color is not set, use the default max color: {bar_max}")
+    logger.info(f"Color bar range: {bar_min} - {bar_max}")
+    logger.info(f"Use the color map: {cmap}")
     with np.errstate(divide='ignore'):
         img = ax.imshow(log2(matrix) if log else matrix, cmap=plt.get_cmap(cmap), vmin=bar_min, vmax=bar_max,
                         origin="lower",
@@ -75,23 +77,3 @@ def plot_matrix(matrix, chr_info=None, genome_name=None, outfile='GenomeContact.
     cb.ax.tick_params(labelsize=font_size)
 
     plt.savefig(outfile)
-
-
-def main():
-    hic_file = "/home/jzj/projects/PlotHiC/data/Mastacembelus.hic"
-    resolution = 250000
-    bar_max = 100
-    matrix_end = 552000000
-    matrix = parse_hic(hic_file, resolution, matrix_end=matrix_end)
-
-    output_file = "/mnt/e/downloads/GenomeContact.pdf"
-    chr_info = {'Chr1': 260, 'Chr2': 505, 'Chr3': 5670}
-
-    genome_name = "Mastacembelus"
-    # plot_matrix(matrix, outfile=output_file)
-
-    plot_matrix(matrix, chr_info, outfile=output_file, bar_max=bar_max, genome_name=genome_name)
-
-
-if __name__ == '__main__':
-    main()

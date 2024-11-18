@@ -12,8 +12,6 @@
 import hicstraw
 import numpy as np
 
-from logger import logger
-
 
 def parse_hic(hic, resolution, matrix_end=None, data_type="observed", normalization="NONE"):
     hic_obj = hicstraw.HiCFile(hic)
@@ -26,7 +24,7 @@ def parse_hic(hic, resolution, matrix_end=None, data_type="observed", normalizat
         chr_info[chrom.name] = chrom.length
     hic_max_len = chr_info["assembly"]
     matrix_end = hic_max_len if matrix_end is None else matrix_end
-    logger.info(f"HiC data assembly chromosome length: {hic_max_len}")
+    # logger.info(f"HiC data assembly chromosome length: {hic_max_len}")
 
     res_max_len = resolution * 1400
 
@@ -55,14 +53,3 @@ def parse_hic(hic, resolution, matrix_end=None, data_type="observed", normalizat
         contact_matrix = non_zero_rows[:, ~np.all(non_zero_rows == 0, axis=0)]
 
     return contact_matrix
-
-
-def main():
-    hic_file = "/home/jzj/projects/PlotHiC/data/Mastacembelus.hic"
-    resolution = 1000
-    temp_result = parse_hic(hic_file, resolution)
-    print(temp_result.shape)
-
-
-if __name__ == '__main__':
-    main()

@@ -10,53 +10,32 @@
 """
 import argparse
 
+from src.PlotHiC import plot_hic
 
-def Parser(Hicdescription, beddescription):
-    parser = argparse.ArgumentParser(description='This kit show links of Hic,you should provide hicfile[sparse matrix of Hic proc | merged_nodups.txt that result from juicer] and bed file [bed file of Hic proc|assemblyView of Juicer], \
-	if possible,you may provide chromosome prefix in plot, and default prefix chr.')
-    parser.add_argument('flag', type=str, choices=['juicer', 'Hicproc'],
-                        help="this is only flag, which remind you to run corresponding module")
-    parser.add_argument('Hic', type=str, help=Hicdescription)
-    parser.add_argument('bed', type=str, help=beddescription)
-    parser.add_argument('-H', '--Matrix', dest='MTX', type=str, default="", \
-                        help='matrix file including Hic relation of chromosome')
-    parser.add_argument('-p', '--prefix', dest='P', type=str, default="chr", \
-                        help='chr prefix')
-    parser.add_argument('-M', '--cMap', dest='CM', type=int, \
-                        help='color shapping you choseed,five cMap you can select', default=3)
-    parser.add_argument('-W', '--chromosome', dest='CHR', type=str, default="whole",
-                        help="plot the whole genome, if you provide the last chomosome, then the figure will show between first chromosome and the last chomosome for Hic matrix of Hicproc method. while you provide single choromosome, it will display the chromosome.")
-    parser.add_argument('-E', '--endChr', dest='ECHR', type=str, default="chr12",
-                        help="assigned parameter the last chromosome in the bed, the ved file should be ordered,it's only for Hic matrix of Hicproc method.")
-    parser.add_argument('-n', '--chrNumber', dest='N', type=int, default=12,
-                        help="assigned parameter the chromosome number of genome, it's only for Hic matrix of juicerbox method.")
-    parser.add_argument('-i', '--Dpi', dest='DPI', type=int, required=False, default=300,
-                        help='assigned distinguishability of plot figue,default:300 dpi')
-    parser.add_argument('-z', '--figSize', dest='FIGS', type=str, required=False, default=(6, 6),
-                        help='assigned figure size,default:(6,6)')
-    parser.add_argument('-X', '--AxesLen', dest='AxesL', type=float, required=False, default=4,
-                        help='length of x, y axis ticks.')
-    parser.add_argument('-w', '--Axeswd', dest='AxesW', type=float, required=False, default=2,
-                        help='width of x, y axis ticks.')
-    parser.add_argument('-d', '--AxesPd', dest='AxesPD', type=float, required=False, default=6,
-                        help='distance between x, y axis ticks label and plot object.')
-    parser.add_argument('-S', "--gstyple", dest='GS', type=str, required=False, default='dashed',
-                        help="grid linestyle, '-' or 'solid','--' or 'dashed','-.' or 'dashdot',':' or 'dotted',none")
-    parser.add_argument('-C', '--gColor', dest='COLO', type=str, required=False, default='black',
-                        help="grid color, default: black.")
-    parser.add_argument('-L', '--glinewd', dest='WD', type=float, required=False, default=1,
-                        help="grid linewidth!,defult:1")
-    parser.add_argument('-A', '--gAlpha', dest='AP', type=float, required=False, default=1, help="grid alpha!,defult:1")
-    parser.add_argument('-B', '--cbSize', dest='CBSZ', type=str, required=False, default="0.5%",
-                        help="percentage of plot ax, default: percentage: 0.5.")
-    parser.add_argument('-D', '--cbPad', dest='CBPD', type=float, required=False, default=0.1,
-                        help="distantance between colorbar and plot ax!,defalt:0.1")
-    parser.add_argument('-F', '--fontsize', dest='FZ', type=int, default=6, \
-                        help="fontsize for chromosome when plot whole genome!")
-    parser.add_argument('-o', '--output', dest='Fg', type=str, default='out.pdf', \
-                        help='output name of figure')
-    parser.add_argument('-R', '--outdir', dest='ODIR', type=str, default='./', \
-                        help='output directory storing result')
-    parser.add_argument("-v", "--verbose", help="show version of kit", action="store_true", default=False)
+
+def main():
+    parser = argparse.ArgumentParser(description='Plot Whole genome Hi-C contact matrix heatmap')
+    parser.add_argument('-hic', '--hic-file', type=str, help='Path to the Hi-C file', required=True)
+    parser.add_argument('-chr', '--chr-txt', type=str, help='Path to the chromosome text file', required=True)
+    parser.add_argument('-o', '--output', type=str, default='GenomeContact.pdf', help='Output file name')
+    parser.add_argument('-r', '--resolution', type=int, default=None, help='Resolution for Hi-C data')
+    parser.add_argument('-d', '--data-type', type=str, default='observed',
+                        help='Data type for Hi-C data or "oe" (observed/expected)')
+    parser.add_argument('-n', '--normalization', type=str, default='NONE',
+                        help='Normalization method for Hi-C data (NONE, VC, VC_SQRT, KR, SCALE, etc.)')
+    parser.add_argument('-g', '--genome-name', type=str, default=None, help='Genome name')
+    parser.add_argument('-f', '--fig-size', type=tuple, default=(6, 6), help='Figure size')
+    parser.add_argument('--dpi', type=int, default=300, help='DPI for the output figure')
+    parser.add_argument('--bar_min', type=int, default=0, help='Minimum value for color bar')
+    parser.add_argument('--bar_max', type=int, default=None, help='Maximum value for color bar')
+    parser.add_argument('--cmap', type=str, default='YlOrRd', help='Color map for the heatmap')
+
     args = parser.parse_args()
-    return (args)
+
+    plot_hic(args.hic_file, chr_txt=args.chr_txt, output=args.output, resolution=args.resolution,
+             data_type=args.data_type, normalization=args.normalization, genome_name=args.genome_name,
+             fig_size=args.fig_size, dpi=args.dpi, bar_min=args.bar_min, bar_max=args.bar_max, cmap=args.cmap)
+
+
+if __name__ == '__main__':
+    main()

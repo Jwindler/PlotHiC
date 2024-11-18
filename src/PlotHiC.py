@@ -11,15 +11,17 @@
 
 import hicstraw
 
-from ParseHiC import parse_hic
-from PlotMTX import plot_matrix
-from logger import logger
+from src.ParseHiC import parse_hic
+from src.PlotMTX import plot_matrix
+from src.logger import logger
 
 
 def plot_hic(hic, chr_txt, output='GenomeContact.pdf', resolution=None, data_type="observed",
              normalization="NONE", genome_name=None, fig_size=(6, 6), dpi=300,
              bar_min=0,
              bar_max=None, cmap="YlOrRd"):
+    logger.info(f"Start Plot Hi-C data: {hic}")
+
     # get hic object
     hic_obj = hicstraw.HiCFile(hic)
 
@@ -34,7 +36,8 @@ def plot_hic(hic, chr_txt, output='GenomeContact.pdf', resolution=None, data_typ
     elif resolution not in resolutions:
         logger.error(f"Resolution {resolution} not in {resolutions}")
         resolution = resolutions[-1]
-    logger.info(f"Resolution: {resolution}")
+    logger.info(f"Use the resolution: {resolution}")
+    logger.info(f"Use the {data_type} data type and {normalization} normalization method")
 
     # plot with chr txt
 
@@ -50,6 +53,7 @@ def plot_hic(hic, chr_txt, output='GenomeContact.pdf', resolution=None, data_typ
             # get the last chromosome length
             if int(line[1]) > last_chr_len:
                 last_chr_len = int(line[1])
+    logger.info(f"Chromosome information: {chr_info}")
     # sort chromosome information
     chr_info_sorted = dict(sorted(chr_info.items(), key=lambda item: item[1]))
     matrix = parse_hic(hic, resolution, matrix_end=last_chr_len, data_type=data_type, normalization=normalization)
@@ -58,16 +62,5 @@ def plot_hic(hic, chr_txt, output='GenomeContact.pdf', resolution=None, data_typ
                 bar_min=bar_min,
                 bar_max=bar_max, cmap=cmap)
 
-
-def main():
-    hic_file = "/home/jzj/projects/PlotHiC/data/test.hic"
-    resolution = 100000
-    chr_txt = "/home/jzj/projects/PlotHiC/data/chr.txt"
-    output_file = "/mnt/e/downloads/GenomeContact.pdf"
-    genome_name = "PlotHiC"
-    cmap = "Reds"
-    plot_hic(hic_file, chr_txt=chr_txt, genome_name=genome_name, resolution=resolution, output=output_file, cmap=cmap)
-
-
-if __name__ == '__main__':
-    main()
+    logger.info(f"Save the plot to {output}")
+    logger.info("Finished Plot Hi-C data")

@@ -9,7 +9,7 @@
 @Function: Parse assembly file to get the chromosome information
 """
 
-from logger import logger
+from src.logger import logger
 
 
 def parse_assembly(assembly_file):
@@ -64,13 +64,3 @@ def parse_assembly(assembly_file):
     logger.info(f"Total length of all chromosomes: {all_chr_len}")
 
     return chr_info, all_chr_info
-
-
-def main():
-    asy_file = "/home/jzj/projects/PlotHiC/data/Mastacembelus.assembly"
-    temp_result = parse_assembly(asy_file)
-    print(temp_result)
-
-
-if __name__ == '__main__':
-    main()
