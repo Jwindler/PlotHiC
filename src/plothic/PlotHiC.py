@@ -11,9 +11,9 @@
 
 import hicstraw
 
-from src.ParseHiC import parse_hic
-from src.PlotMTX import plot_matrix
-from src.logger import logger
+from plothic.ParseHiC import parse_hic
+from plothic.PlotMTX import plot_matrix
+from plothic.logger import logger
 
 
 def plot_hic(hic, chr_txt, output='GenomeContact.pdf', resolution=None, data_type="observed",

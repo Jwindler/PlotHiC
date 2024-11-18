@@ -9,7 +9,7 @@
 @Function: Parse assembly file to get the chromosome information
 """
 
-from src.logger import logger
+from plothic.logger import logger
 
 
 def parse_assembly(assembly_file):
