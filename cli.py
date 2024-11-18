@@ -4,7 +4,7 @@
 """
 @Author: Zijie Jiang
 @Contact: jzjlab@163.com
-@File: main.py
+@File: cli.py
 @Time: 2024/11/15 11:47
 @Function: Main function of PlotHiC
 """
