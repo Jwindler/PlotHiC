@@ -66,7 +66,7 @@ This file is taken directly from `3d-dna`, you need to select the final `hic` fi
 
 This file is used for heatmap labeling. The first column is the name of the chromosome and the second column is the length of the chromosome (this length is the length of the hic file in Juicebox and can be manually determined from Juicebox).
 
-**Note: **the length is in .hic file, not true base length.
+**Note:** the length is in .hic file, not true base length.
 
 ```sh
 # name length
