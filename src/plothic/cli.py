@@ -17,18 +17,19 @@ def main():
     parser = argparse.ArgumentParser(description='Plot Whole genome Hi-C contact matrix heatmap')
     parser.add_argument('-hic', '--hic-file', type=str, help='Path to the Hi-C file', required=True)
     parser.add_argument('-chr', '--chr-txt', type=str, default=None, help='Path to the chromosome text file')
-    parser.add_argument('-o', '--output', type=str, default='GenomeContact.pdf', help='Output file name')
+    parser.add_argument('-o', '--output', type=str, default='GenomeContact.pdf',
+                        help='Output file name, default: GenomeContact.pdf')
     parser.add_argument('-r', '--resolution', type=int, default=None, help='Resolution for Hi-C data')
     parser.add_argument('-d', '--data-type', type=str, default='observed',
-                        help='Data type for Hi-C data or "oe" (observed/expected)')
+                        help='Data type for Hi-C data or "oe" (observed/expected), default: observed')
     parser.add_argument('-n', '--normalization', type=str, default='NONE',
-                        help='Normalization method for Hi-C data (NONE, VC, VC_SQRT, KR, SCALE, etc.)')
+                        help='Normalization method for Hi-C data (NONE, VC, VC_SQRT, KR, SCALE, etc.), default: NONE')
     parser.add_argument('-g', '--genome-name', type=str, default=None, help='Genome name')
-    parser.add_argument('-f', '--fig-size', type=tuple, default=6, help='Figure size')
-    parser.add_argument('--dpi', type=int, default=300, help='DPI for the output figure')
-    parser.add_argument('--bar_min', type=int, default=0, help='Minimum value for color bar')
+    parser.add_argument('-f', '--fig-size', type=tuple, default=6, help='Figure size, default: 6')
+    parser.add_argument('--dpi', type=int, default=300, help='DPI for the output figure, default: 300')
+    parser.add_argument('--bar_min', type=int, default=0, help='Minimum value for color bar, default: 0')
     parser.add_argument('--bar_max', type=int, default=None, help='Maximum value for color bar')
-    parser.add_argument('--cmap', type=str, default='YlOrRd', help='Color map for the heatmap')
+    parser.add_argument('--cmap', type=str, default='YlOrRd', help='Color map for the heatmap, default: YlOrRd')
 
     args = parser.parse_args()
 
