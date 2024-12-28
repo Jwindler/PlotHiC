@@ -1,6 +1,6 @@
 # PlotHiC
 
-`PlotHiC` is an extension of [AutoHiC](https://github.com/Jwindler/AutoHiC) that is used to visualize global interaction heatmaps after genome scaffolding.
+`PlotHiC`  is used to visualize global interaction heatmaps after genome scaffolding.
 
 **Note: PlotHiC is currently under development. If you have any questions, please [Open Issues](https://github.com/Jwindler/PlotHiC/issues/new) or provide us with your comments via the email below.**
 
@@ -32,7 +32,11 @@ Email: [jzjlab@163.com](mailto:jzjlab@163.com)
 
 **If you used PlotHiC in your research, please cite us:**
 
+```sh
 Zijie Jiang, Zhixiang Peng, Zhaoyuan Wei, Jiahe Sun, Yongjiang Luo, Lingzi Bie, Guoqing Zhang, Yi Wang, A deep learning-based method enables the automatic and accurate assembly of chromosome-level genomes, Nucleic Acids Research, 2024;, gkae789, https://doi.org/10.1093/nar/gkae789
+```
+
+
 
 
 
