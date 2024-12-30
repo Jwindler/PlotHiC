@@ -53,14 +53,3 @@ def parse_hic(hic, resolution, matrix_end=None, data_type="observed", normalizat
         contact_matrix = non_zero_rows[:, ~np.all(non_zero_rows == 0, axis=0)]
 
     return contact_matrix
-
-
-def parse_hic_sorted(matrix, new_order):
-    n = len(matrix)
-    new_matrix = [[0] * n for _ in range(n)]  # Initialize the new matrix with zeros
-
-    for i in range(n):
-        for j in range(n):
-            new_matrix[i][j] = matrix[new_order[i]][new_order[j]]
-
-    return new_matrix

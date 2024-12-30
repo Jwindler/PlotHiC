@@ -8,6 +8,8 @@ Author: Zijie Jiang
 
 Email: [jzjlab@163.com](mailto:jzjlab@163.com)
 
+ 
+
 
 
 ## Content 
@@ -60,41 +62,59 @@ pip install plothic
 
 ### Input file
 
-- `hic`
+- `genome.hic`
 
 This file is taken directly from `3d-dna`, you need to select the final `hic` file (which has already been error adjusted and chromosome boundaries determined).
 
 
 
-- **Chromosome txt**
+- `chr.tx`
 
-This file is used for heatmap labeling. The first column is the name of the chromosome and the second column is the length of the chromosome (this length is the length of the hic file in Juicebox and can be manually determined from Juicebox).
+1. This file is used for heatmap labeling. The first column is the name of the chromosome.
+2. The second column is the length of the chromosome (this length is the length of the hic file in Juicebox and can be manually determined from Juicebox). 
+3. The third column is the order in which the chromosomes are placed, which is used to customize the arrangement of chromosomes (for example, from max to min).
 
 **Note:** the length is in .hic file, not true base length.
 
 ```sh
-# name length
-Chr1 24800000
-Chr2 44380000
-Chr3 63338000
-Chr4 81187000
-Chr5 97650000
+# name length index
+Chr1 24800000 5
+Chr2 44380000 4
+Chr3 63338000 3
+Chr4 81187000 2
+Chr5 97650000 1
 ```
 
 
 
 ### example
 
+- **Default order**
+
 ```sh
-plothic -hic test.hic -chr chr.txt -r 100000
+plothic -hic genome.hic -chr chr.txt -r 100000
 
 # -hic > .hic file 
 # -chr > chromosome length (in .hic file)
 # -r > resolution to visualization
-
 ```
 
-![](https://s2.loli.net/2024/11/15/3rmOLU5IPa6vywo.png)
+![](https://s2.loli.net/2024/12/30/RaTqyHziYbFJDOM.png)
+
+
+
+- **Custom order**
+
+```sh
+plothic -hic genome.hic -chr chr.txt -r 100000 --order
+
+# -hic > .hic file 
+# -chr > chromosome length (in .hic file)
+# -r > resolution to visualization
+# --order > 
+```
+
+![](https://s2.loli.net/2024/12/30/Dbu6Wmjq9zUK8dG.png)
 
 
 
