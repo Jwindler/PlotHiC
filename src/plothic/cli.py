@@ -25,7 +25,7 @@ def main():
     parser.add_argument('-n', '--normalization', type=str, default='NONE',
                         help='Normalization method for Hi-C data (NONE, VC, VC_SQRT, KR, SCALE, etc.), default: NONE')
     parser.add_argument('-g', '--genome-name', type=str, default=None, help='Genome name')
-    parser.add_argument('-f', '--fig-size', type=tuple, default=6, help='Figure size, default: 6')
+    parser.add_argument('-f', '--fig-size', type=int, default=6, help='Figure size, default: 6')
     parser.add_argument('--order', action='store_false', help='Order the heatmap by specific order')
     parser.add_argument('--dpi', type=int, default=300, help='DPI for the output figure, default: 300')
     parser.add_argument('--bar_min', type=int, default=0, help='Minimum value for color bar, default: 0')

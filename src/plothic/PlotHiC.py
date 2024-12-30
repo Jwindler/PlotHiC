@@ -18,7 +18,7 @@ from plothic.logger import logger
 
 
 def plot_hic(hic, chr_txt, output='GenomeContact.pdf', resolution=None, data_type="observed",
-             normalization="NONE", genome_name=None, fig_size=(6, 6), dpi=300,
+             normalization="NONE", genome_name=None, fig_size=6, dpi=300,
              bar_min=0,
              bar_max=None, cmap="YlOrRd", order=False):
     logger.info(f"Start Plot Hi-C data: {hic}")
@@ -94,7 +94,7 @@ def plot_hic(hic, chr_txt, output='GenomeContact.pdf', resolution=None, data_typ
         chr_label_dict = {}
         for i in chr_info:
             chr_label_dict[chr_info[i]["name"]] = chr_info[i]["label_loci"]
-
+    fig_size = (fig_size, fig_size)
     plot_matrix(matrix, chr_info=chr_label_dict, outfile=output, genome_name=genome_name, fig_size=fig_size,
                 dpi=dpi,
                 bar_min=bar_min,
