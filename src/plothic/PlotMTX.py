@@ -13,7 +13,7 @@ import numpy as np
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from numpy import log2
 
-from plothic.logger import logger
+from .logger import logger
 
 
 def plot_matrix(matrix, chr_info=None, genome_name=None, outfile='GenomeContact.pdf', fig_size=(6, 6), dpi=300,

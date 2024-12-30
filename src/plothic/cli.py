@@ -10,7 +10,7 @@
 """
 import argparse
 
-from plothic.PlotHiC import plot_hic
+from .PlotHiC import plot_hic
 
 
 def main():
