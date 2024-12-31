@@ -16,7 +16,7 @@ from .PlotHiC import plot_hic
 
 def main():
     parser = argparse.ArgumentParser(description='Plot Whole genome Hi-C contact matrix heatmap')
-    parser.add_argument('-hic', '--hic-file', type=str, help='Path to the Hi-C file', required=True)
+    parser.add_argument('-hic', '--hic-file', type=str, help='Path to the Hi-C file')
     parser.add_argument('-chr', '--chr-txt', type=str, default=None, help='Path to the chromosome text file')
     parser.add_argument('--matrix', type=str, default=None, help='Path to the HiCPro matrix file')
     parser.add_argument('--abs-bed', type=str, default=None, help='Path to the HiCPro abs bed file')
