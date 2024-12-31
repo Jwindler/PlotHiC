@@ -25,7 +25,7 @@ def plot_matrix(matrix, chr_info=None, genome_name=None, outfile='GenomeContact.
                 axes_pad=6,
                 grid_style='dashed', grid_color='black', grid_width=1, grip_alpha=0.8, bar_size="3%", bar_pad=0.1,
                 font_size=10,
-                log=False):
+                log=False, rotation=45):
     fig, ax = plt.subplots(1, 1, figsize=fig_size, dpi=dpi)
 
     if chr_info is None:
@@ -47,8 +47,8 @@ def plot_matrix(matrix, chr_info=None, genome_name=None, outfile='GenomeContact.
 
     ax.grid(color=grid_color, linestyle=grid_style, linewidth=grid_width, alpha=grip_alpha)
 
-    plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor", fontsize=font_size)
-    plt.setp(ax.get_yticklabels(), rotation=45, ha="right", rotation_mode="anchor", fontsize=font_size)
+    plt.setp(ax.get_xticklabels(), rotation=rotation, ha="right", rotation_mode="anchor", fontsize=font_size)
+    plt.setp(ax.get_yticklabels(), rotation=rotation, ha="right", rotation_mode="anchor", fontsize=font_size)
 
     ax.tick_params(direction='out', length=axes_len, width=axes_wd, pad=axes_pad)
 

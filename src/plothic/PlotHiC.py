@@ -20,8 +20,8 @@ from .logger import logger
 def plot_hic(hic, chr_txt, output='GenomeContact.pdf', resolution=None, data_type="observed",
              normalization="NONE", genome_name=None, fig_size=6, dpi=300,
              bar_min=0,
-             bar_max=None, cmap="YlOrRd", order=False):
-    logger.info(f"Start Plot Hi-C data: {hic}")
+             bar_max=None, cmap="YlOrRd", order=False, log=False, rotation=45):
+    logger.info(f"Start Plot Hi-C data (hic format): {hic}")
 
     # get hic object
     hic_obj = hicstraw.HiCFile(hic)
@@ -41,19 +41,20 @@ def plot_hic(hic, chr_txt, output='GenomeContact.pdf', resolution=None, data_typ
     logger.info(f"Use the {data_type} data type and {normalization} normalization method")
 
     # plot with chr txt
-    chr_info = {}
-    chr_start = 0
-    last_chr_len = 0
+    chr_info = {}  # chromosome information
+    chr_start = 0  # chromosome start loci
+    last_chr_len = 0  # last chromosome length
 
+    # get chromosome information
     with (open(chr_txt, 'r') as f):
         for line in f:
             if line.startswith("#"):
                 continue
             line = line.strip().split()
             chr_info[line[2]] = {
-                "length": int(line[1]) - chr_start,
+                "length": int(line[1]) - chr_start,  # chromosome length in hic file
                 "name": line[0],
-                "hic_loci": int(line[1])
+                "hic_loci": int(line[1])  # chromosome loci in hic file
             }
             chr_start = int(line[1])
 
@@ -66,11 +67,12 @@ def plot_hic(hic, chr_txt, output='GenomeContact.pdf', resolution=None, data_typ
     matrix = parse_hic(hic, resolution, matrix_end=last_chr_len, data_type=data_type, normalization=normalization)
     matrix_len = len(matrix)
 
-    chr_label_dict = {}
+    chr_label_dict = {}  # chr name: loci index in matrix
     for i in chr_info:
         chr_label_dict[chr_info[i]["name"]] = chr_info[i]["hic_loci"] * matrix_len // last_chr_len
 
     if order:
+        logger.info("Order the heatmap by specific order")
         chr_dict_length = len(chr_info)
 
         # cal the new order
@@ -89,16 +91,17 @@ def plot_hic(hic, chr_txt, output='GenomeContact.pdf', resolution=None, data_typ
         new_order.extend(np.arange(0, chr_info[str(chr_dict_length)]["index"]))
         chr_info[str(chr_dict_length)]["label_loci"] = matrix_len
 
+        # get the new order matrix
         matrix = matrix[new_order, :][:, new_order]
 
         chr_label_dict = {}
         for i in chr_info:
             chr_label_dict[chr_info[i]["name"]] = chr_info[i]["label_loci"]
-    fig_size = (fig_size, fig_size)
-    plot_matrix(matrix, chr_info=chr_label_dict, outfile=output, genome_name=genome_name, fig_size=fig_size,
+
+    plot_matrix(matrix, chr_info=chr_label_dict, outfile=output, genome_name=genome_name, fig_size=(fig_size, fig_size),
                 dpi=dpi,
                 bar_min=bar_min,
-                bar_max=bar_max, cmap=cmap)
+                bar_max=bar_max, cmap=cmap, log=log, rotation=rotation)
 
     logger.info(f"Save the plot to {output}")
     logger.info("Finished Plot Hi-C data")

@@ -47,11 +47,3 @@ class LoggerHandler(logging.Logger):
 
 # initialing logger
 logger = LoggerHandler()
-
-if __name__ == '__main__':
-    logger = LoggerHandler()
-    logger.debug('debug ')
-    logger.info('info')
-    logger.warning('warning')
-    logger.error('error')
-    logger.critical('critical')

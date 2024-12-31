@@ -16,21 +16,16 @@ import numpy as np
 def parse_hic(hic, resolution, matrix_end=None, data_type="observed", normalization="NONE"):
     hic_obj = hicstraw.HiCFile(hic)
 
-    # genome_id = hic_obj.getGenomeID()
-    # logger.info(f"Genome ID: {genome_id}")
-
     chr_info = {}
     for chrom in hic_obj.getChromosomes():
         chr_info[chrom.name] = chrom.length
     hic_max_len = chr_info["assembly"]
     matrix_end = hic_max_len if matrix_end is None else matrix_end
-    # logger.info(f"HiC data assembly chromosome length: {hic_max_len}")
 
     res_max_len = resolution * 1400
 
     matrix_obj = hic_obj.getMatrixZoomData('assembly', 'assembly', data_type, normalization, "BP", resolution)
 
-    # contact_matrix = None  # contact matrix
     if res_max_len > matrix_end:
         contact_matrix = matrix_obj.getRecordsAsMatrix(0, matrix_end, 0, matrix_end)
     else:
