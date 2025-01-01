@@ -13,6 +13,7 @@ import argparse
 from .PlotBed import plot_bed
 from .PlotHiC import plot_hic
 from .logger import logger
+from .version import __version__
 
 
 def main():
@@ -38,6 +39,7 @@ def main():
     parser.add_argument('--bar-max', type=int, default=None, help='Maximum value for color bar')
     parser.add_argument('--cmap', type=str, default='YlOrRd', help='Color map for the heatmap, default: YlOrRd')
     parser.add_argument('--rotation', type=int, default=45, help='Rotation for the x and y axis labels, default: 45')
+    parser.add_argument('-v', '--version', action='version', version=__version__)
 
     args = parser.parse_args()
 
