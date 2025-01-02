@@ -14,7 +14,7 @@ from .PlotBed import plot_bed, plot_bed_split
 from .PlotHiC import plot_hic, plot_hic_split
 from .logger import logger
 
-__version__ = "0.4.1"
+__version__ = "0.4.2"
 
 
 def main():
@@ -72,7 +72,7 @@ def main():
                      fig_size=args.fig_size, dpi=args.dpi, bar_min=args.bar_min, bar_max=args.bar_max, cmap=args.cmap,
                      log=args.log, rotation=args.rotation, grid=args.grid, out_format=args.format)
     else:
-        if args.hic_split != "":
+        if args.hic_split != "" and args.hic_file:
             plot_hic_split(args.hic_file, args.hic_split, output=args.output, resolution=args.resolution,
                            data_type=args.data_type,
                            normalization=args.normalization, genome_name=args.genome_name, fig_size=args.fig_size,
@@ -80,11 +80,13 @@ def main():
                            bar_min=args.bar_min,
                            bar_max=args.bar_max, cmap=args.cmap, log=args.log, rotation=args.rotation,
                            out_format=args.format)
-        else:
+        elif args.hic_file:
             plot_hic(args.hic_file, chr_txt=args.chr_txt, output=args.output, resolution=args.resolution,
                      data_type=args.data_type, normalization=args.normalization, genome_name=args.genome_name,
                      fig_size=args.fig_size, dpi=args.dpi, bar_min=args.bar_min, bar_max=args.bar_max, cmap=args.cmap,
                      order=args.order, log=args.log, rotation=args.rotation, grid=args.grid, out_format=args.format)
+        else:
+            logger.error("Please check your input parameters")
 
 
 if __name__ == '__main__':
