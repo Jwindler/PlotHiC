@@ -72,7 +72,7 @@ def main():
                      fig_size=args.fig_size, dpi=args.dpi, bar_min=args.bar_min, bar_max=args.bar_max, cmap=args.cmap,
                      log=args.log, rotation=args.rotation, grid=args.grid, out_format=args.format)
     else:
-        if args.bed_split != "":
+        if args.hic_split != "":
             plot_hic_split(args.hic_file, args.hic_split, output=args.output, resolution=args.resolution,
                            data_type=args.data_type,
                            normalization=args.normalization, genome_name=args.genome_name, fig_size=args.fig_size,
@@ -85,6 +85,8 @@ def main():
                      data_type=args.data_type, normalization=args.normalization, genome_name=args.genome_name,
                      fig_size=args.fig_size, dpi=args.dpi, bar_min=args.bar_min, bar_max=args.bar_max, cmap=args.cmap,
                      order=args.order, log=args.log, rotation=args.rotation, grid=args.grid, out_format=args.format)
+
+    logger.info("Please input the correct parameters")
 
 
 if __name__ == '__main__':
