@@ -14,7 +14,7 @@ from .PlotBed import plot_bed, plot_bed_split
 from .PlotHiC import plot_hic, plot_hic_split
 from .logger import logger
 
-__version__ = "0.4.2"
+__version__ = "0.4.4"
 
 
 def main():
@@ -27,13 +27,12 @@ def main():
 
     parser.add_argument('-o', '--output', type=str, default='./', help='Output directory, default: ./')
 
-    parser.add_argument('-order', action='store_false', help='Order the heatmap by specific order')
+    parser.add_argument('-order', action='store_true', help='Order the heatmap by specific order')
     parser.add_argument('--abs-order', type=str, default="", help='Path to the HiCPro abs order file')
 
     parser.add_argument('--hic-split', type=str, default="", help='Plot the heatmap by split chromosome (hic format)')
 
-    parser.add_argument('--bed-split', action='store_false',
-                        help='Plot the heatmap by split chromosome (HiCPro format)')
+    parser.add_argument('--bed-split', action='store_true', help='Plot the heatmap by split chromosome (HiCPro format)')
 
     parser.add_argument('-g', '--genome-name', type=str, default="", help='Genome name for the heatmap')
     parser.add_argument('-r', '--resolution', type=int, default=None, help='Resolution for Hi-C data')
@@ -41,7 +40,7 @@ def main():
                         help='Data type for Hi-C data or "oe" (observed/expected), default: observed')
     parser.add_argument('-n', '--normalization', type=str, default='NONE',
                         help='Normalization method for Hi-C data (NONE, VC, VC_SQRT, KR, SCALE, etc.), default: NONE')
-    parser.add_argument('-log', action='store_false', help='Log2 transform the data')
+    parser.add_argument('-log', action='store_true', help='Log2 transform the data')
 
     parser.add_argument('-cmap', type=str, default='YlOrRd', help='Color map for the heatmap, default: YlOrRd')
     parser.add_argument('-format', type=str, default="pdf", help='Output format for the figure, default: pdf')
@@ -50,7 +49,7 @@ def main():
     parser.add_argument('--bar-min', type=int, default=0, help='Minimum value for color bar, default: 0')
     parser.add_argument('--bar-max', type=int, default=None, help='Maximum value for color bar')
     parser.add_argument('-rotation', type=int, default=45, help='Rotation for the x and y axis labels, default: 45')
-    parser.add_argument('-grid', action='store_true', help='Show grid in the heatmap, Default: True')
+    parser.add_argument('-grid', action='store_false', help='Show grid in the heatmap, Default: True')
 
     parser.add_argument('-v', '--version', action='version', version=__version__)
 
