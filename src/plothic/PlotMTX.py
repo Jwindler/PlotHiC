@@ -16,13 +16,13 @@ from numpy import log2
 from .logger import logger
 
 
-def plot_matrix(matrix, chr_info=None, genome_name=None, outfile='GenomeContact.pdf', fig_size=(6, 6), dpi=300,
+def plot_matrix(matrix, chr_info=None, genome_name="Genome", outfile='GenomeContact.pdf', fig_size=(6, 6), dpi=300,
                 bar_min=0,
                 bar_max=None,
                 cmap="YlOrRd",
                 axes_len=4,
                 axes_wd=1,
-                axes_pad=6,
+                axes_pad=6, grid=True,
                 grid_style='dashed', grid_color='black', grid_width=1, grip_alpha=0.8, bar_size="3%", bar_pad=0.1,
                 font_size=10,
                 log=False, rotation=45):
@@ -32,8 +32,8 @@ def plot_matrix(matrix, chr_info=None, genome_name=None, outfile='GenomeContact.
         labels = []
         pos = []
     else:
-        labels = list(chr_info.keys())  # chromosome names
-        pos = list(chr_info.values())  # chromosome loci
+        labels = list(chr_info.keys())  # chrom names
+        pos = list(chr_info.values())  # chrom loci
 
     ax.set_xticks(pos)
     ax.set_yticks(pos)
@@ -45,7 +45,9 @@ def plot_matrix(matrix, chr_info=None, genome_name=None, outfile='GenomeContact.
     logger.info(f"Genome name: {genome_name}")
     ax.set_title(genome_name, fontsize=20, pad=8, fontstyle='italic')
 
-    ax.grid(color=grid_color, linestyle=grid_style, linewidth=grid_width, alpha=grip_alpha)
+    if grid:
+        logger.info("Show grid in the heatmap")
+        ax.grid(color=grid_color, linestyle=grid_style, linewidth=grid_width, alpha=grip_alpha)
 
     plt.setp(ax.get_xticklabels(), rotation=rotation, ha="right", rotation_mode="anchor", fontsize=font_size)
     plt.setp(ax.get_yticklabels(), rotation=rotation, ha="right", rotation_mode="anchor", fontsize=font_size)
@@ -61,7 +63,7 @@ def plot_matrix(matrix, chr_info=None, genome_name=None, outfile='GenomeContact.
     ax.set_xlim(0.5, lim_extents)
 
     matrix = matrix + 1e-9  # avoid log2(0) error
-    maxcolor = (np.percentile(matrix, 95))
+    maxcolor = (np.percentile(matrix, 90))
     if bar_max is None:
         bar_max = maxcolor
         logger.info(f"Max color is not set, use the default max color: {bar_max}")
