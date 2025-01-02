@@ -14,12 +14,12 @@ from .PlotBed import plot_bed, plot_bed_split
 from .PlotHiC import plot_hic, plot_hic_split
 from .logger import logger
 
-__version__ = "0.4.0"
+__version__ = "0.4.1"
 
 
 def main():
     parser = argparse.ArgumentParser(description='Plot Whole genome Hi-C contact matrix heatmap')
-    parser.add_argument('-hic', '--hic-file', type=str, help='Path to the Hi-C file')
+    parser.add_argument('-hic', '--hic-file', type=str, default=None, help='Path to the Hi-C file')
     parser.add_argument('-chr', '--chr-txt', type=str, default=None, help='Path to the chromosome text file')
 
     parser.add_argument('-matrix', type=str, default=None, help='Path to the HiCPro matrix file')
@@ -56,8 +56,8 @@ def main():
 
     args = parser.parse_args()
 
-    if args.matrix and args.hic_file:
-        logger.error("Please provide either Hi-C file or HiCPro matrix file")
+    if args.matrix is None and args.hic_file is None:
+        logger.error("Please provide either Hi-C or HiCPro format file")
         exit(1)
 
     if args.matrix and args.abs_bed:
@@ -85,8 +85,6 @@ def main():
                      data_type=args.data_type, normalization=args.normalization, genome_name=args.genome_name,
                      fig_size=args.fig_size, dpi=args.dpi, bar_min=args.bar_min, bar_max=args.bar_max, cmap=args.cmap,
                      order=args.order, log=args.log, rotation=args.rotation, grid=args.grid, out_format=args.format)
-
-    logger.info("Please input the correct parameters")
 
 
 if __name__ == '__main__':
