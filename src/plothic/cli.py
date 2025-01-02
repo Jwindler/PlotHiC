@@ -35,7 +35,7 @@ def main():
     parser.add_argument('--bed-split', action='store_false',
                         help='Plot the heatmap by split chromosome (HiCPro format)')
 
-    parser.add_argument('-g', '--genome-name', type=str, default=None, help='Genome name')
+    parser.add_argument('-g', '--genome-name', type=str, default="", help='Genome name for the heatmap')
     parser.add_argument('-r', '--resolution', type=int, default=None, help='Resolution for Hi-C data')
     parser.add_argument('-d', '--data-type', type=str, default='observed',
                         help='Data type for Hi-C data or "oe" (observed/expected), default: observed')
@@ -57,7 +57,7 @@ def main():
     args = parser.parse_args()
 
     if args.matrix is None and args.hic_file is None:
-        logger.error("Please provide either Hi-C or HiCPro format file")
+        logger.error("Please check your input parameters")
         exit(1)
 
     if args.matrix and args.abs_bed:
