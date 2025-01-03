@@ -74,8 +74,8 @@ def plot_bed(matrix, abs_bed, order_bed="", output='./', genome_name="", fig_siz
             pre_label = chr_label_dict[chr_order[str(i)]]
 
         matrix = matrix[np.ix_(new_order, new_order)]
-
-    output = os.path.join(output, f"GenomeContact.{out_format}")
+    if os.path.isdir(output):  # output is a directory
+        output = os.path.join(output, f"GenomeContact.{out_format}")
     plot_matrix(matrix, chr_info=chr_label_dict, outfile=output, genome_name=genome_name, fig_size=(fig_size, fig_size),
                 dpi=dpi,
                 bar_min=bar_min,
@@ -119,8 +119,10 @@ def plot_bed_split(matrix, abs_bed, output='./', fig_size=6, dpi=300,
         chr_info[i]["loci"] = np.arange(pre_label_loci, chr_info[i]["index"])
 
         chr_matrix = matrix[np.ix_(chr_info[i]["loci"], chr_info[i]["loci"])]
-
-        chr_output = os.path.join(output, f"{i}.{out_format}")
+        if os.path.isdir(output):  # output is a directory
+            chr_output = os.path.join(output, f"{i}.{out_format}")
+        else:
+            chr_output = os.path.join("./", f"{i}.{out_format}")
         plot_matrix(chr_matrix, outfile=chr_output, genome_name=i, fig_size=(fig_size, fig_size),
                     dpi=dpi,
                     bar_min=bar_min,

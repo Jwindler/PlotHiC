@@ -13,16 +13,6 @@ from .logger import logger
 
 
 def parse_assembly(assembly_file):
-    """
-    Parse assembly file to get the chromosome information
-    Args:
-        assembly_file: assembly file
-
-    Returns:
-        chr_info: chromosome information
-        all_chr_info: all chromosome information
-
-    """
     scaffold_info = {}  # scaffold information
     chr_info = {}  # chromosome information
 

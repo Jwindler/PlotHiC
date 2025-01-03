@@ -97,7 +97,9 @@ def plot_hic(hic, chr_txt, output='./', resolution=None, data_type="observed",
         chr_label_dict = {}
         for i in chr_info:
             chr_label_dict[chr_info[i]["name"]] = chr_info[i]["label_loci"]
-    output = os.path.join(output, f"GenomeContact.{out_format}")
+    if os.path.isdir(output):  # output is a directory
+        output = os.path.join(output, f"GenomeContact.{out_format}")
+
     plot_matrix(matrix, chr_info=chr_label_dict, outfile=output, genome_name=genome_name, fig_size=(fig_size, fig_size),
                 dpi=dpi,
                 bar_min=bar_min,
@@ -171,7 +173,12 @@ def plot_hic_split(hic, split_txt, output='./', resolution=None, data_type="obse
             # Remove all zero rows and columns
             non_zero_rows = final_matrix[~np.all(final_matrix == 0, axis=1)]
             contact_matrix = non_zero_rows[:, ~np.all(non_zero_rows == 0, axis=0)]
-        chr_output = os.path.join(output, f"{chr_name}.{out_format}")
+
+        if os.path.isdir(output):  # output is a directory
+            chr_output = os.path.join(output, f"{chr_name}.{out_format}")
+        else:
+            chr_output = os.path.join("./", f"{chr_name}.{out_format}")
+
         plot_matrix(contact_matrix, outfile=chr_output, genome_name=genome_name + chr_name,
                     fig_size=(fig_size, fig_size),
                     dpi=dpi,
