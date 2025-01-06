@@ -14,7 +14,7 @@ from .PlotBed import plot_bed, plot_bed_split
 from .PlotHiC import plot_hic, plot_hic_split
 from .logger import logger
 
-__version__ = "0.4.6"
+__version__ = "0.4.7"
 
 
 def main():
@@ -27,7 +27,8 @@ def main():
 
     parser.add_argument('-o', '--output', type=str, default='./', help='Output directory, default: ./')
 
-    parser.add_argument('-order', action='store_true', help='Order the heatmap by specific order')
+    parser.add_argument('-order', action='store_true',
+                        help='Order the heatmap by specific order, for hic format, default: False')
     parser.add_argument('--abs-order', type=str, default="", help='Path to the HiCPro abs order file')
 
     parser.add_argument('--hic-split', type=str, default="", help='Plot the heatmap by split chromosome (hic format)')
@@ -55,7 +56,7 @@ def main():
 
     args = parser.parse_args()
 
-    if not any(vars(args).values()):
+    if all(value in [None, '', False] for value in vars(args).values()):
         parser.print_help()
 
     if args.matrix is None and args.hic_file is None:
