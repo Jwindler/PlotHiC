@@ -14,7 +14,7 @@ from .PlotBed import plot_bed, plot_bed_split
 from .PlotHiC import plot_hic, plot_hic_split
 from .logger import logger
 
-__version__ = "0.4.8"
+__version__ = "0.4.10"
 
 
 def main():
@@ -56,7 +56,7 @@ def main():
 
     args = parser.parse_args()
 
-    if all(value in [None, '', False] for value in vars(args).values()):
+    if len(vars(args)) == 0:
         parser.print_help()
 
     if args.matrix is None and args.hic_file is None:

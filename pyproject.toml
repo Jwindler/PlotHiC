@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "plothic"
-version = "0.4.8"
+version = "0.4.10"
 description = "Plot whole genome contact heatmap"
 authors = ["Zijie Jiang <jzjlab@163.com>"]
 readme = "README.md"
