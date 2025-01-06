@@ -14,7 +14,7 @@ from .PlotBed import plot_bed, plot_bed_split
 from .PlotHiC import plot_hic, plot_hic_split
 from .logger import logger
 
-__version__ = "0.4.10"
+__version__ = "0.4.13"
 
 
 def main():
@@ -55,9 +55,6 @@ def main():
     parser.add_argument('-v', '--version', action='version', version=__version__)
 
     args = parser.parse_args()
-
-    if len(vars(args)) == 0:
-        parser.print_help()
 
     if args.matrix is None and args.hic_file is None:
         logger.error("Please check your input parameters")
