@@ -36,6 +36,8 @@ Email: [jzjlab@163.com](mailto:jzjlab@163.com)
 
 - Dependency : `python = "^3.10"`
 
+
+
 ### pip
 
 ```bash
@@ -43,6 +45,19 @@ Email: [jzjlab@163.com](mailto:jzjlab@163.com)
 pip install plothic
 
 ```
+
+
+
+### conda
+
+```sh
+# create plothic enviorment and install plothic
+conda env create -n plothic -c bioconda plothic
+
+# mamba env create -n plothic -c bioconda plothic
+```
+
+
 
 
 
