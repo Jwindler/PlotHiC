@@ -16,9 +16,7 @@ import numpy as np
 def parse_hic(hic, resolution, matrix_end=None, data_type="observed", normalization="NONE"):
     hic_obj = hicstraw.HiCFile(hic)
 
-    chr_info = {}
-    for chrom in hic_obj.getChromosomes():
-        chr_info[chrom.name] = chrom.length
+    chr_info = {chrom.name: chrom.length for chrom in hic_obj.getChromosomes()}
     hic_max_len = chr_info["assembly"]
     matrix_end = hic_max_len if matrix_end is None else matrix_end
 
@@ -44,7 +42,7 @@ def parse_hic(hic, resolution, matrix_end=None, data_type="observed", normalizat
             final_matrix = temp_matrix if final_matrix is None else np.vstack((final_matrix, temp_matrix))
 
         # Remove all zero rows and columns
-        non_zero_rows = final_matrix[~np.all(final_matrix == 0, axis=1)]
-        contact_matrix = non_zero_rows[:, ~np.all(non_zero_rows == 0, axis=0)]
+        final_matrix = final_matrix[~np.all(final_matrix == 0, axis=1)]
+        contact_matrix = final_matrix[:, ~np.all(final_matrix == 0, axis=0)]
 
     return contact_matrix

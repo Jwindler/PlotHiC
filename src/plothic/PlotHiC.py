@@ -39,6 +39,8 @@ def plot_hic(hic, chr_txt, output='./', resolution=None, data_type="observed",
         logger.error(f"Resolution {resolution} not in {resolutions}")
         resolution = resolutions[-4]
     logger.info(f"Use the resolution: {resolution}")
+    if resolution <= 1000:
+        logger.warning("The resolution is too small, the memory usage will be large")
     logger.info(f"Use the {data_type} data type and {normalization} normalization method")
 
     chr_info = {}  # chrom information
@@ -64,7 +66,8 @@ def plot_hic(hic, chr_txt, output='./', resolution=None, data_type="observed",
 
     logger.info(f"Chromosome information: {chr_info}")
 
-    matrix = parse_hic(hic, resolution, matrix_end=last_chr_len, data_type=data_type, normalization=normalization)
+    matrix = parse_hic(hic, resolution, matrix_end=last_chr_len, data_type=data_type,
+                       normalization=normalization).astype(np.float32)
     matrix_len = len(matrix)
 
     chr_label_dict = {}  # chr name: loci index in matrix
