@@ -42,7 +42,10 @@ def plot_matrix(matrix, chr_info=None, genome_name="Genome", outfile='GenomeCont
     ax.set_yticklabels(labels)
 
     # set genome title
-    logger.info(f"Genome name: {genome_name}")
+    if genome_name == "":
+        logger.warning("Genome name is not set")
+    else:
+        logger.info(f"Genome name: {genome_name}")
     ax.set_title(genome_name, fontsize=20, pad=8, fontstyle='italic')
 
     if grid:

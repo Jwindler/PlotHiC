@@ -78,21 +78,21 @@ def plot_hic(hic, chr_txt, output='./', resolution=None, data_type="observed",
         logger.info("Order the heatmap by specific order")
         chr_dict_length = len(chr_info)
 
+        pre_index = 0
         # cal the new order
         for i in chr_info:
+            chr_info[i]["pre_index"] = pre_index
             chr_info[i]["index"] = (chr_info[i]["hic_loci"] * matrix_len) // last_chr_len
+            pre_index = chr_info[i]["index"]
 
         new_order = []
 
         pre_label_loci = 0
-        for i in range(1, chr_dict_length):
-            temp_order = np.arange(chr_info[str(i + 1)]["index"], chr_info[str(i)]["index"])
+        for i in range(1, chr_dict_length+1):
+            temp_order = np.arange(chr_info[str(i)]["pre_index"], chr_info[str(i)]["index"])
             new_order.extend(temp_order)
             chr_info[str(i)]["label_loci"] = len(temp_order) + pre_label_loci
             pre_label_loci = chr_info[str(i)]["label_loci"]
-
-        new_order.extend(np.arange(0, chr_info[str(chr_dict_length)]["index"]))
-        chr_info[str(chr_dict_length)]["label_loci"] = matrix_len
 
         # get the new order matrix
         matrix = matrix[new_order, :][:, new_order]

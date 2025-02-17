@@ -15,6 +15,7 @@ Email: [jzjlab@163.com](mailto:jzjlab@163.com)
   - [Introduction](#introduction)
   - [Installation](#installation)
     - [pip](#pip)
+    - [conda](#conda)
   - [Usage](#usage)
     - [.hic format](#hic-format)
     - [HiCPro format](#hicpro-format)
@@ -52,9 +53,9 @@ pip install plothic
 
 ```sh
 # create plothic enviorment and install plothic
-conda env create -n plothic -c bioconda plothic
+conda env create -n plothic -c bioconda  -c conda-forge plothic
 
-# mamba env create -n plothic -c bioconda plothic
+# mamba env create -n plothic -c bioconda  -c conda-forge plothic
 ```
 
 
