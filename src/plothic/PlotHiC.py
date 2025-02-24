@@ -21,7 +21,8 @@ from .logger import logger
 def plot_hic(hic, chr_txt, output='./', resolution=None, data_type="observed",
              normalization="NONE", genome_name="", fig_size=6, dpi=300,
              bar_min=0,
-             bar_max=None, cmap="YlOrRd", order=False, log=False, rotation=45, grid=True, out_format="pdf"):
+             bar_max=None, cmap="YlOrRd", order=False, log=False, rotation=45, grid=True, out_format="pdf",
+             xaxis=False):
     logger.info(f"Start Plot Hi-C data (hic format): {hic}")
 
     # get hic object
@@ -88,7 +89,7 @@ def plot_hic(hic, chr_txt, output='./', resolution=None, data_type="observed",
         new_order = []
 
         pre_label_loci = 0
-        for i in range(1, chr_dict_length+1):
+        for i in range(1, chr_dict_length + 1):
             temp_order = np.arange(chr_info[str(i)]["pre_index"], chr_info[str(i)]["index"])
             new_order.extend(temp_order)
             chr_info[str(i)]["label_loci"] = len(temp_order) + pre_label_loci
@@ -103,10 +104,21 @@ def plot_hic(hic, chr_txt, output='./', resolution=None, data_type="observed",
     if os.path.isdir(output):  # output is a directory
         output = os.path.join(output, f"GenomeContact.{out_format}")
 
+    if xaxis:
+        logger.info("Show genome size at x-axis")
+        x_label_dict = {}
+        temp_chr_len = 0
+        for i in chr_label_dict:
+            x_name = str(round(chr_label_dict[i] * resolution / 1000000, 1)) + " Mb"
+            logger.info(f"{i} length: {round(chr_label_dict[i] * resolution / 1000000 - temp_chr_len, 1) } Mb")
+            temp_chr_len = round(chr_label_dict[i] * resolution / 1000000, 1)
+            x_label_dict[x_name] = chr_label_dict[i]
+    else:
+        x_label_dict = None
     plot_matrix(matrix, chr_info=chr_label_dict, outfile=output, genome_name=genome_name, fig_size=(fig_size, fig_size),
                 dpi=dpi,
                 bar_min=bar_min,
-                bar_max=bar_max, cmap=cmap, log=log, rotation=rotation, grid=grid)
+                bar_max=bar_max, cmap=cmap, log=log, rotation=rotation, grid=grid, x_info=x_label_dict)
 
     logger.info(f"Save the plot to {output}")
     logger.info("Finished Plot Hi-C data")
@@ -115,7 +127,7 @@ def plot_hic(hic, chr_txt, output='./', resolution=None, data_type="observed",
 def plot_hic_split(hic, split_txt, output='./', resolution=None, data_type="observed",
                    normalization="NONE", genome_name="", fig_size=6, dpi=300,
                    bar_min=0,
-                   bar_max=None, cmap="YlOrRd", log=False, rotation=45, out_format="pdf"):
+                   bar_max=None, cmap="YlOrRd", log=False, rotation=45, out_format="pdf", xaxis=False):
     logger.info(f"Start Plot Hi-C data (hic format) with split chromosome: {hic}")
 
     # get hic object
@@ -182,7 +194,16 @@ def plot_hic_split(hic, split_txt, output='./', resolution=None, data_type="obse
         else:
             chr_output = os.path.join("./", f"{chr_name}.{out_format}")
 
-        plot_matrix(contact_matrix, outfile=chr_output, genome_name=genome_name + chr_name,
+        if xaxis:
+            logger.info("Show genome size at x-axis")
+            x_label_dict = {0: 0}
+            x_name = str(round(loci_len / 1000000, 1)) + " Mb"
+            logger.info(f"Chromosome length: {x_name}")
+            x_label_dict[x_name] = contact_matrix.shape[0]
+        else:
+            x_label_dict = None
+
+        plot_matrix(contact_matrix, chr_info=x_label_dict, outfile=chr_output, genome_name=genome_name + chr_name,
                     fig_size=(fig_size, fig_size),
                     dpi=dpi,
                     bar_min=bar_min,

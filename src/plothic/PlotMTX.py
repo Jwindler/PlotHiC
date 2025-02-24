@@ -25,7 +25,7 @@ def plot_matrix(matrix, chr_info=None, genome_name="Genome", outfile='GenomeCont
                 axes_pad=6, grid=True,
                 grid_style='dashed', grid_color='black', grid_width=1, grip_alpha=0.8, bar_size="3%", bar_pad=0.1,
                 font_size=10,
-                log=False, rotation=45):
+                log=False, rotation=45, x_info=None):
     fig, ax = plt.subplots(1, 1, figsize=fig_size, dpi=dpi)
 
     if chr_info is None:
@@ -40,6 +40,13 @@ def plot_matrix(matrix, chr_info=None, genome_name="Genome", outfile='GenomeCont
 
     ax.set_xticklabels(labels)
     ax.set_yticklabels(labels)
+
+    if x_info is not None:
+        x_labels = list(x_info.keys())  # chrom names
+        x_pos = list(x_info.values())  # chrom loci
+
+        ax.set_xticks(x_pos)
+        ax.set_xticklabels(x_labels)
 
     # set genome title
     if genome_name == "":

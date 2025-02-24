@@ -14,7 +14,7 @@ from .PlotBed import plot_bed, plot_bed_split
 from .PlotHiC import plot_hic, plot_hic_split
 from .logger import logger
 
-__version__ = "0.4.19"
+__version__ = "0.5.0"
 
 
 def main():
@@ -51,6 +51,7 @@ def main():
     parser.add_argument('--bar-max', type=int, default=None, help='Maximum value for color bar')
     parser.add_argument('-rotation', type=int, default=45, help='Rotation for the x and y axis labels, default: 45')
     parser.add_argument('-grid', action='store_false', help='Show grid in the heatmap, Default: True')
+    parser.add_argument('--x-axis', action='store_true', help='Show genome size at x-axis, Default: False')
 
     parser.add_argument('-v', '--version', action='version', version=__version__)
 
@@ -65,12 +66,12 @@ def main():
             plot_bed_split(args.matrix, args.abs_bed, output=args.output, fig_size=args.fig_size, dpi=args.dpi,
                            bar_min=args.bar_min,
                            bar_max=args.bar_max, cmap=args.cmap, log=args.log, rotation=args.rotation,
-                           out_format=args.format)
+                           out_format=args.format, xaxis=args.x_axis)
         else:
             plot_bed(args.matrix, args.abs_bed, order_bed=args.abs_order, output=args.output,
                      genome_name=args.genome_name,
                      fig_size=args.fig_size, dpi=args.dpi, bar_min=args.bar_min, bar_max=args.bar_max, cmap=args.cmap,
-                     log=args.log, rotation=args.rotation, grid=args.grid, out_format=args.format)
+                     log=args.log, rotation=args.rotation, grid=args.grid, out_format=args.format, xaxis=args.x_axis)
     else:
         if args.hic_split != "" and args.hic_file:
             plot_hic_split(args.hic_file, args.hic_split, output=args.output, resolution=args.resolution,
@@ -79,12 +80,12 @@ def main():
                            dpi=args.dpi,
                            bar_min=args.bar_min,
                            bar_max=args.bar_max, cmap=args.cmap, log=args.log, rotation=args.rotation,
-                           out_format=args.format)
+                           out_format=args.format, xaxis=args.x_axis)
         elif args.hic_file:
             plot_hic(args.hic_file, chr_txt=args.chr_txt, output=args.output, resolution=args.resolution,
                      data_type=args.data_type, normalization=args.normalization, genome_name=args.genome_name,
                      fig_size=args.fig_size, dpi=args.dpi, bar_min=args.bar_min, bar_max=args.bar_max, cmap=args.cmap,
-                     order=args.order, log=args.log, rotation=args.rotation, grid=args.grid, out_format=args.format)
+                     order=args.order, log=args.log, rotation=args.rotation, grid=args.grid, out_format=args.format, xaxis=args.x_axis)
         else:
             logger.error("Please check your input parameters")
 

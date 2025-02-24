@@ -18,7 +18,7 @@ from .logger import logger
 
 def plot_bed(matrix, abs_bed, order_bed="", output='./', genome_name="", fig_size=6, dpi=300,
              bar_min=0,
-             bar_max=None, cmap="YlOrRd", log=False, rotation=45, grid=True, out_format="pdf"):
+             bar_max=None, cmap="YlOrRd", log=False, rotation=45, grid=True, out_format="pdf", xaxis=False):
     logger.info(f"Start Plot Hi-C data (HiCPro format):")
     logger.info(f"HiCPro matrix file: {matrix}")
     logger.info(f"HiCPro abs bed file: {abs_bed}")
@@ -76,10 +76,25 @@ def plot_bed(matrix, abs_bed, order_bed="", output='./', genome_name="", fig_siz
         matrix = matrix[np.ix_(new_order, new_order)]
     if os.path.isdir(output):  # output is a directory
         output = os.path.join(output, f"GenomeContact.{out_format}")
+
+    if xaxis:
+        logger.info("Show genome size at x-axis")
+        x_label_dict = {}
+        chr_start = 0
+        for i in chr_label_dict:
+            temp_chr_len = chr_info[i]["length"]
+            logger.info(f"Chromosome {i} length: {round(temp_chr_len / 1000000, 1)} Mb")
+            chr_len = chr_info[i]["length"] + chr_start
+            x_name = str(round(chr_len / 1000000, 1)) + " Mb"
+            x_label_dict[x_name] = chr_info[i]["index"]
+            chr_start = chr_len
+    else:
+        x_label_dict = None
+
     plot_matrix(matrix, chr_info=chr_label_dict, outfile=output, genome_name=genome_name, fig_size=(fig_size, fig_size),
                 dpi=dpi,
                 bar_min=bar_min,
-                bar_max=bar_max, cmap=cmap, log=log, rotation=rotation, grid=grid)
+                bar_max=bar_max, cmap=cmap, log=log, rotation=rotation, grid=grid, x_info=x_label_dict)
 
     logger.info(f"Save the plot to {output}")
     logger.info("Finished Plot HiCPro data")
@@ -87,7 +102,7 @@ def plot_bed(matrix, abs_bed, order_bed="", output='./', genome_name="", fig_siz
 
 def plot_bed_split(matrix, abs_bed, output='./', fig_size=6, dpi=300,
                    bar_min=0,
-                   bar_max=None, cmap="YlOrRd", log=False, rotation=45, out_format="pdf"):
+                   bar_max=None, cmap="YlOrRd", log=False, rotation=45, out_format="pdf", xaxis=False):
     logger.info(f"Start Plot Hi-C data (HiCPro format) with split chromosomes:")
     logger.info(f"HiCPro matrix file: {matrix}")
     logger.info(f"HiCPro abs bed file: {abs_bed}")
@@ -111,6 +126,7 @@ def plot_bed_split(matrix, abs_bed, output='./', fig_size=6, dpi=300,
                 continue
             line = line.strip().split()
             chr_info[line[0]] = {
+                "length": int(line[2]),
                 "index": int(line[3])
             }
 
@@ -123,7 +139,17 @@ def plot_bed_split(matrix, abs_bed, output='./', fig_size=6, dpi=300,
             chr_output = os.path.join(output, f"{i}.{out_format}")
         else:
             chr_output = os.path.join("./", f"{i}.{out_format}")
-        plot_matrix(chr_matrix, outfile=chr_output, genome_name=i, fig_size=(fig_size, fig_size),
+
+        if xaxis:
+            logger.info("Show genome size at x-axis")
+            x_label_dict = {0: 0}
+            x_name=str(round(chr_info[i]["length"]/1000000, 1))+" Mb"
+            logger.info(f"Chromosome {i} length: {round(chr_info[i]['length']/1000000, 1)} Mb")
+            x_label_dict[x_name] = chr_matrix.shape[0]
+        else:
+            x_label_dict = None
+
+        plot_matrix(chr_matrix, chr_info=x_label_dict, outfile=chr_output, genome_name=i, fig_size=(fig_size, fig_size),
                     dpi=dpi,
                     bar_min=bar_min,
                     bar_max=bar_max, cmap=cmap, log=log, rotation=rotation, grid=False)
