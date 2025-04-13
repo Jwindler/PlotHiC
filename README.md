@@ -2,9 +2,15 @@
 
 `PlotHiC`  is used to visualize whole genome-wide contact heatmaps after genome scaffolding.
 
+Plothic's sample documentation is available here: [example](https://github.com/Jwindler/PlotHiC/blob/main/example.md).
+
 **If you have any questions, please [Open Issues](https://github.com/Jwindler/PlotHiC/issues/new) or provide us with your comments via the email below.**
 
 Email: [jzjlab@163.com](mailto:jzjlab@163.com)
+
+
+
+---
 
 
 
