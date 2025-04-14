@@ -183,12 +183,3 @@ plothic -matrix sample_500000.matrix --abs-bed sample_500000_abs.bed -format png
 
 ![](https://s2.loli.net/2024/11/13/MYZe56Vy2BT1tDp.png)
 
-
-
-## Citations
-
-**If you used PlotHiC in your research, please cite us:**
-
-```sh
-Zijie Jiang, Zhixiang Peng, Zhaoyuan Wei, Jiahe Sun, Yongjiang Luo, Lingzi Bie, Guoqing Zhang, Yi Wang, A deep learning-based method enables the automatic and accurate assembly of chromosome-level genomes, Nucleic Acids Research, 2024;, gkae789, https://doi.org/10.1093/nar/gkae789
-```
